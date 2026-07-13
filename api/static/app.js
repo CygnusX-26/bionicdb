@@ -44,11 +44,11 @@ document.querySelector("#matches-form").addEventListener("submit", async (event)
       return;
     }
     result.innerHTML = `<div class="table-wrap"><table>
-      <thead><tr><th>Symbol</th><th>Offset</th><th>Build ID</th><th>Device</th><th>Android</th><th>API</th><th>Security patch</th></tr></thead>
+      <thead><tr><th>Symbol</th><th>Offset</th><th>Build ID (click to download)</th><th>Device</th><th>Android</th><th>API</th><th>Security patch</th></tr></thead>
       <tbody>${data.libs.map((row) => `<tr>
         <td class="mono">${escapeHtml(row.name)}</td>
         <td class="mono">0x${Number(row.offset).toString(16)}</td>
-        <td class="mono">${escapeHtml(row.build_id)}</td>
+        <td class="mono"><a href="/v1/libs/${encodeURIComponent(row.build_id)}" download="${escapeHtml(row.build_id)}.so">${escapeHtml(row.build_id)}</a></td>
         <td>${escapeHtml(row.device)}</td>
         <td>${escapeHtml(row.android_version)}</td>
         <td>${escapeHtml(row.android_api)}</td>
@@ -71,24 +71,6 @@ document.querySelector("#offset-form").addEventListener("submit", async (event) 
   try {
     const data = await (await request(`/v1/libs/${encodeURIComponent(buildId)}/offset?${params}`)).json();
     result.innerHTML = `<div class="message">Offset: <span class="value">${escapeHtml(data.offset)}</span></div>`;
-  } catch (error) { showError(result, error); }
-  finally { setBusy(form, false); }
-});
-
-document.querySelector("#download-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const result = document.querySelector("#download-result");
-  const buildId = new FormData(form).get("buildId").trim();
-  setBusy(form, true);
-
-  try {
-    const blob = await (await request(`/v1/libs/${encodeURIComponent(buildId)}`)).blob();
-    const url = URL.createObjectURL(blob);
-    const link = Object.assign(document.createElement("a"), { href: url, download: `${buildId}.so` });
-    link.click();
-    URL.revokeObjectURL(url);
-    result.innerHTML = '<div class="message">Download started.</div>';
   } catch (error) { showError(result, error); }
   finally { setBusy(form, false); }
 });
