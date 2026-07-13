@@ -4,10 +4,10 @@ from fastapi.responses import FileResponse
 from starlette import status
 
 from app.db import (
-    REPOSITORY_ROOT,
     Database,
     get_build_id_from_symbol_offset,
     get_lib_path_from_build_id,
+    get_offset_from_symbol_build_id,
 )
 
 app = FastAPI(
@@ -17,8 +17,21 @@ app = FastAPI(
 )
 
 
+@app.get("/v1/libs/{build_id}/offset")
+def libs_build_id_offset(
+    database: Database, symbol: str, build_id: str
+) -> dict[str, object]:
+    offset = get_offset_from_symbol_build_id(database, symbol, build_id)
+    if offset is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No matching symbol: {symbol} for build_id: {build_id}",
+        )
+    return {"status": "ok", "offset": hex(offset)}
+
+
 @app.get("/v1/libs/{build_id}")
-def libs(database: Database, build_id: str) -> FileResponse:
+def libs_build_id(database: Database, build_id: str) -> FileResponse:
     path = get_lib_path_from_build_id(database, build_id)
     if path is None:
         raise HTTPException(

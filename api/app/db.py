@@ -26,6 +26,26 @@ def get_db() -> Iterator[sqlite3.Connection]:
 Database = Annotated[sqlite3.Connection, Depends(get_db)]
 
 
+def get_offset_from_symbol_build_id(
+    database: Database, symbol: str, build_id: str
+) -> int | None:
+    offset = cast(
+        tuple[int] | None,
+        database.execute(
+            """
+            SELECT offset
+            FROM symbols_with_build_id
+            WHERE build_id = ?
+            AND name = ?;
+            """,
+            (build_id, symbol),
+        ).fetchone(),
+    )
+    if offset is None:
+        return None
+    return offset[0]
+
+
 # get the file path from a build id for a lib
 def get_lib_path_from_build_id(
     database: Database,
