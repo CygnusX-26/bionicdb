@@ -2,7 +2,7 @@ import os
 import sqlite3
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, cast
 
 from fastapi.param_functions import Depends
 
@@ -27,20 +27,26 @@ Database = Annotated[sqlite3.Connection, Depends(get_db)]
 
 
 # get the file path from a build id for a lib
-def get_lib_path_from_build_id(database: Database, build_id: str) -> Path | None:
-    row = database.execute(
-        """
-        SELECT file_path
-        FROM libs
-        WHERE build_id = ?
-        """,
-        (build_id,),
-    ).fetchone()
+def get_lib_path_from_build_id(
+    database: Database,
+    build_id: str,
+) -> Path | None:
+    row = cast(
+        tuple[str] | None,
+        database.execute(
+            """
+            SELECT file_path
+            FROM libs
+            WHERE build_id = ?
+            """,
+            (build_id,),
+        ).fetchone(),
+    )
 
     if row is None:
         return None
 
-    return Path(row[0])
+    return REPOSITORY_ROOT / Path(row[0])
 
 
 # Get a lib buildid from a symbol or offset, symbol name is optional.

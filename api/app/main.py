@@ -26,7 +26,7 @@ def libs(database: Database, build_id: str) -> FileResponse:
             detail=f"No library found for build ID {build_id}.",
         )
     return FileResponse(
-        path=REPOSITORY_ROOT / path,
+        path=path,
         filename=f"{build_id}.so",
         media_type="application/octet-stream",
     )
