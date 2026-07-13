@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BionicDB</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>BionicDB</h1>
+      </header>
+
+      <section>
+        <h2>Find libraries</h2>
+        <form id="matches-form">
+          <label>Offset<input name="offset" placeholder="0x27bff" required /></label>
+          <label>Symbol <span>(optional)</span><input name="symbol" placeholder="ASCTIME_FMT" /></label>
+          <button type="submit">Query</button>
+        </form>
+        <div id="matches-result" class="result" aria-live="polite"></div>
+      </section>
+
+      <section>
+        <h2>Find symbol offset</h2>
+        <form id="offset-form">
+          <label>Build ID<input name="buildId" placeholder="Build ID" required /></label>
+          <label>Symbol<input name="symbol" placeholder="ASCTIME_FMT" required /></label>
+          <button type="submit">Query</button>
+        </form>
+        <div id="offset-result" class="result" aria-live="polite"></div>
+      </section>
+
+      <section>
+        <h2>Download library</h2>
+        <form id="download-form">
+          <label>Build ID<input name="buildId" placeholder="Build ID" required /></label>
+          <button type="submit">Download</button>
+        </form>
+        <div id="download-result" class="result" aria-live="polite"></div>
+      </section>
+    </main>
+  </body>
+</html>

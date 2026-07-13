@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette import status
 
 from app.db import (
+    REPOSITORY_ROOT,
     Database,
     get_build_id_from_symbol_offset,
     get_lib_path_from_build_id,
@@ -66,3 +68,10 @@ def symbol_matches(
             for row in get_build_id_from_symbol_offset(database, base_10_offset, symbol)
         ],
     }
+
+
+app.mount(
+    "/",
+    StaticFiles(directory=REPOSITORY_ROOT / "api" / "static", html=True),
+    name="frontend",
+)
