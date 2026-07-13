@@ -1,0 +1,9 @@
+https://dl.google.com/dl/android/aosp/stallion-ota-bd6a.251031.001.a4-babc6d73.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp1a.260305.018-c157843a.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp1a.260405.005-0a525a41.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp1a.260505.005-62eaa74b.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp1a.260505.005.a1-7090adae.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp2a.260605.012-75c5496d.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp2a.260605.012.c1-7ccf57b4.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp2a.260705.006-f621043f.zip
+https://dl.google.com/dl/android/aosp/stallion-ota-cp2a.260705.006.a1-ccf3de84.zip
