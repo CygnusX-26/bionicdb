@@ -1,0 +1,19 @@
+[project]
+name = "bionicdb"
+version = "0.1.0"
+description = "API for querying indexed Android Bionic libc builds"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.116,<1",
+    "uvicorn[standard]>=0.35,<1",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28,<1",
+    "pytest>=8.4,<9",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
