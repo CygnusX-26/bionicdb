@@ -1,0 +1,14 @@
+https://dl.google.com/dl/android/aosp/bluejay-ota-bp2a.250705.008-f7332dab.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-bp2a.250705.008.a1-14519571.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-bp3a.250905.014-52c07c03.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-bp4a.251205.006-7e97be73.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp1a.260305.018-4ec1fe7d.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp1a.260305.018.a1-b0ad1149.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp1a.260405.003.a1-9d121853.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp1a.260405.005-c48935a2.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp1a.260405.005.b1-138ca39b.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp2a.260605.012-39741091.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp2a.260605.012.a1-dcbc4faa.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp2a.260605.012.b1-91afee94.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp2a.260705.006-4d72e3fe.zip
+https://dl.google.com/dl/android/aosp/bluejay-ota-cp2a.260705.006.a1-62cc8900.zip

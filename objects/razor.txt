@@ -1,0 +1,5 @@
+https://dl.google.com/dl/android/aosp/razor-ota-mob30d-b7239cf4.zip
+https://dl.google.com/dl/android/aosp/razor-ota-mob30j-a1d349f7.zip
+https://dl.google.com/dl/android/aosp/razor-ota-mob30m-084c62a1.zip
+https://dl.google.com/dl/android/aosp/razor-ota-mob30p-b41593f4.zip
+https://dl.google.com/dl/android/aosp/razor-ota-mob30x-54635e45.zip

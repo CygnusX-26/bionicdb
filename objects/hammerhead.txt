@@ -1,0 +1,9 @@
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mmb29x-13c27a19.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob30d-74ff57bc.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob30h-672f59e1.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob30m-1af36a17.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob30p-d447411d.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob30y-308025d1.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-mob31e-284a96a5.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-m4b30x-f2eb90a8.zip
+https://dl.google.com/dl/android/aosp/hammerhead-ota-m4b30z-752c16b1.zip
