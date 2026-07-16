@@ -3,6 +3,25 @@ const escapeHtml = (value) => String(value ?? "—").replace(
   (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character],
 );
 
+const MATCHES_STORAGE_KEY = "bionicdb-matches";
+const OFFSET_STORAGE_KEY = "bionicdb-offset";
+
+function readStoredResult(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key));
+  } catch (_) {
+    return null;
+  }
+}
+
+function storeResult(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (_) {
+    // The query still works if storage is unavailable or full.
+  }
+}
+
 async function request(path) {
   let response;
   try {
@@ -76,6 +95,14 @@ function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
       renderMatches(result, rows, { key, direction });
     });
   });
+
+  const form = document.querySelector("#matches-form");
+  storeResult(MATCHES_STORAGE_KEY, {
+    offset: form.elements.offset.value,
+    symbol: form.elements.symbol.value,
+    rows,
+    sort,
+  });
 }
 
 document.querySelector("#matches-form").addEventListener("submit", async (event) => {
@@ -92,6 +119,12 @@ document.querySelector("#matches-form").addEventListener("submit", async (event)
     const data = await (await request(`/v1/symbol/matches?${params}`)).json();
     if (!data.libs.length) {
       result.innerHTML = '<div class="message">No matches.</div>';
+      storeResult(MATCHES_STORAGE_KEY, {
+        offset: values.get("offset").trim(),
+        symbol,
+        rows: [],
+        sort: { key: null, direction: "asc" },
+      });
       return;
     }
     renderMatches(result, data.libs);
@@ -111,6 +144,36 @@ document.querySelector("#offset-form").addEventListener("submit", async (event) 
   try {
     const data = await (await request(`/v1/libs/${encodeURIComponent(buildId)}/offset?${params}`)).json();
     result.innerHTML = `<div class="message">Offset: <span class="value">${escapeHtml(data.offset)}</span></div>`;
+    storeResult(OFFSET_STORAGE_KEY, {
+      buildId,
+      symbol: values.get("symbol").trim(),
+      offset: data.offset,
+    });
   } catch (error) { showError(result, error); }
   finally { setBusy(form, false); }
 });
+
+const storedMatches = readStoredResult(MATCHES_STORAGE_KEY);
+if (storedMatches && Array.isArray(storedMatches.rows)) {
+  const form = document.querySelector("#matches-form");
+  form.elements.offset.value = storedMatches.offset ?? "";
+  form.elements.symbol.value = storedMatches.symbol ?? "";
+  const result = document.querySelector("#matches-result");
+  if (storedMatches.rows.length) {
+    renderMatches(
+      result,
+      storedMatches.rows,
+      storedMatches.sort ?? { key: null, direction: "asc" },
+    );
+  } else {
+    result.innerHTML = '<div class="message">No matches.</div>';
+  }
+}
+
+const storedOffset = readStoredResult(OFFSET_STORAGE_KEY);
+if (storedOffset?.offset) {
+  const form = document.querySelector("#offset-form");
+  form.elements.buildId.value = storedOffset.buildId ?? "";
+  form.elements.symbol.value = storedOffset.symbol ?? "";
+  document.querySelector("#offset-result").innerHTML = `<div class="message">Offset: <span class="value">${escapeHtml(storedOffset.offset)}</span></div>`;
+}
