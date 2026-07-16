@@ -27,6 +27,10 @@ button:disabled { opacity: .6; cursor: wait; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e4e7e4; white-space: nowrap; }
 th { color: #69716c; background: #f5f6f3; font-size: 10px; text-transform: uppercase; }
+.sort-button { height: auto; border: 0; padding: 0; background: transparent; color: inherit; font-size: inherit; font-weight: 600; text-transform: inherit; display: inline-flex; align-items: center; gap: 5px; }
+.sort-button:hover { background: transparent; color: #222; }
+.sort-icon { width: 9px; display: inline-flex; flex-direction: column; color: #a0a5a1; font-size: 7px; line-height: .7; }
+.sort-icon .active { color: #222; }
 tr:last-child td { border-bottom: 0; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .mono a { color: #174f87; text-underline-offset: 2px; }

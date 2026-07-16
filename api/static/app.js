@@ -27,6 +27,57 @@ function showError(result, error) {
   result.innerHTML = `<div class="message error">${escapeHtml(error.message)}</div>`;
 }
 
+const sortableColumns = [
+  ["name", "Symbol"],
+  ["build_id", "Build ID (click to download)"],
+  ["device", "Device"],
+  ["android_version", "Android"],
+  ["android_api", "API"],
+];
+
+function sortButton(key, label, sort) {
+  const active = sort.key === key;
+  const ariaSort = active ? (sort.direction === "asc" ? "ascending" : "descending") : "none";
+  const upActive = active && sort.direction === "asc" ? " active" : "";
+  const downActive = active && sort.direction === "desc" ? " active" : "";
+  return `<th aria-sort="${ariaSort}"><button class="sort-button" type="button" data-sort="${key}">${label}<span class="sort-icon" aria-hidden="true"><span class="sort-up${upActive}">▲</span><span class="sort-down${downActive}">▼</span></span></button></th>`;
+}
+
+function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
+  const sortedRows = [...rows];
+  if (sort.key) {
+    sortedRows.sort((left, right) => {
+      const leftValue = left[sort.key] ?? "";
+      const rightValue = right[sort.key] ?? "";
+      const comparison = ["android_version", "android_api"].includes(sort.key)
+        ? Number(leftValue) - Number(rightValue)
+        : String(leftValue).localeCompare(String(rightValue), undefined, { numeric: true, sensitivity: "base" });
+      return sort.direction === "asc" ? comparison : -comparison;
+    });
+  }
+
+  const headings = Object.fromEntries(sortableColumns.map(([key, label]) => [key, sortButton(key, label, sort)]));
+  result.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr>${headings.name}<th>Offset</th>${headings.build_id}${headings.device}${headings.android_version}${headings.android_api}</tr></thead>
+    <tbody>${sortedRows.map((row) => `<tr>
+      <td class="mono">${escapeHtml(row.name)}</td>
+      <td class="mono">0x${Number(row.offset).toString(16)}</td>
+      <td class="mono"><a href="/v1/libs/${encodeURIComponent(row.build_id)}" download="${escapeHtml(row.build_id)}.so">${escapeHtml(row.build_id)}</a></td>
+      <td>${escapeHtml(row.device)}</td>
+      <td>${escapeHtml(row.android_version)}</td>
+      <td>${escapeHtml(row.android_api)}</td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
+
+  result.querySelectorAll("[data-sort]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.sort;
+      const direction = sort.key === key && sort.direction === "asc" ? "desc" : "asc";
+      renderMatches(result, rows, { key, direction });
+    });
+  });
+}
+
 document.querySelector("#matches-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -43,18 +94,7 @@ document.querySelector("#matches-form").addEventListener("submit", async (event)
       result.innerHTML = '<div class="message">No matches.</div>';
       return;
     }
-    result.innerHTML = `<div class="table-wrap"><table>
-      <thead><tr><th>Symbol</th><th>Offset</th><th>Build ID (click to download)</th><th>Device</th><th>Android</th><th>API</th><th>Security patch</th></tr></thead>
-      <tbody>${data.libs.map((row) => `<tr>
-        <td class="mono">${escapeHtml(row.name)}</td>
-        <td class="mono">0x${Number(row.offset).toString(16)}</td>
-        <td class="mono"><a href="/v1/libs/${encodeURIComponent(row.build_id)}" download="${escapeHtml(row.build_id)}.so">${escapeHtml(row.build_id)}</a></td>
-        <td>${escapeHtml(row.device)}</td>
-        <td>${escapeHtml(row.android_version)}</td>
-        <td>${escapeHtml(row.android_api)}</td>
-        <td>${escapeHtml(row.security_patch)}</td>
-      </tr>`).join("")}</tbody>
-    </table></div>`;
+    renderMatches(result, data.libs);
   } catch (error) { showError(result, error); }
   finally { setBusy(form, false); }
 });

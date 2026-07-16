@@ -79,17 +79,25 @@ def get_build_id_from_symbol_offset(
             symbols.offset,
             libs.build_id,
             libs.sha256,
-            releases.device,
-            releases.firmware_build_id,
+            REPLACE(
+                GROUP_CONCAT(DISTINCT releases.device),
+                ',',
+                ', '
+            ) AS device,
             releases.android_version,
-            releases.android_api,
-            releases.security_patch
+            MAX(releases.android_api) AS android_api
         FROM symbols
         JOIN libs ON libs.id = symbols.lib_id
         LEFT JOIN releases ON releases.lib_id = libs.id
         WHERE symbols.offset = ?
         AND (? IS NULL OR symbols.name = ?)
-        ORDER BY libs.build_id, releases.security_patch DESC;""",
+        GROUP BY
+            symbols.name,
+            symbols.offset,
+            libs.build_id,
+            libs.sha256,
+            releases.android_version
+        ORDER BY CAST(releases.android_version AS INTEGER), libs.build_id;""",
         (offset, symbol, symbol),
     ).fetchall()
     return rows
