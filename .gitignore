@@ -2,3 +2,4 @@ __pycache__
 bionic.db
 links.txt
 download_and_extract.py
+ota_range.py
