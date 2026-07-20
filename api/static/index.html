@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BionicDB</title>
-    <link rel="stylesheet" href="styles.css?v=10" />
-    <script src="app.js?v=7" defer></script>
+    <link rel="stylesheet" href="styles.css?v=11" />
+    <script src="app.js?v=11" defer></script>
   </head>
   <body>
     <main>
@@ -13,26 +13,42 @@
         <h1>BionicDB</h1>
       </header>
 
-      <section>
-        <h2>Find libraries</h2>
-        <form id="matches-form">
-          <label>Offset<input name="offset" placeholder="0x27bff" required /></label>
-          <label>Symbol <span>(optional)</span><input name="symbol" placeholder="ASCTIME_FMT" /></label>
-          <button type="submit">Query</button>
-        </form>
-        <div id="matches-result" class="result" aria-live="polite"></div>
-      </section>
+      <nav class="view-tabs" aria-label="Views">
+        <button class="view-tab active" type="button" data-view="query">Query</button>
+        <button class="view-tab" type="button" data-view="offset">Symbol offset</button>
+        <button class="view-tab" type="button" data-view="builds">All builds</button>
+      </nav>
 
-      <section>
-        <h2>Find symbol offset</h2>
-        <form id="offset-form">
-          <label>Build ID<input name="buildId" placeholder="Build ID" required /></label>
-          <label>Symbol<input name="symbol" placeholder="ASCTIME_FMT" required /></label>
-          <button type="submit">Query</button>
-        </form>
-        <div id="offset-result" class="result" aria-live="polite"></div>
-      </section>
+      <div id="query-view" data-view-panel="query">
+        <section>
+          <h2>Find libraries</h2>
+          <form id="matches-form">
+            <label>Offset<input name="offset" placeholder="0x27bff" required /></label>
+            <label>Symbol <span>(optional)</span><input name="symbol" placeholder="ASCTIME_FMT" /></label>
+            <button type="submit">Query</button>
+          </form>
+          <div id="matches-result" class="result" aria-live="polite"></div>
+        </section>
+      </div>
 
+      <div id="offset-view" data-view-panel="offset" hidden>
+        <section>
+          <h2>Find symbol offset</h2>
+          <form id="offset-form">
+            <label>Build ID<input name="buildId" placeholder="Build ID" required /></label>
+            <label>Symbol<input name="symbol" placeholder="ASCTIME_FMT" required /></label>
+            <button type="submit">Query</button>
+          </form>
+          <div id="offset-result" class="result" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <div id="builds-view" data-view-panel="builds" hidden>
+        <section>
+          <h2>All builds</h2>
+          <div id="builds-result" class="result" aria-live="polite"></div>
+        </section>
+      </div>
     </main>
   </body>
 </html>

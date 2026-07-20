@@ -54,6 +54,15 @@ const sortableColumns = [
   ["android_api", "API"],
 ];
 
+const buildColumns = [
+  ["build_id", "Build ID (click to download)"],
+  ["android_version", "Android"],
+  ["android_api", "API"],
+  ["security_patch", "Security patch"],
+  ["firmware_build_id", "Firmware builds"],
+  ["device", "Device"],
+];
+
 function sortButton(key, label, sort) {
   const active = sort.key === key;
   const ariaSort = active ? (sort.direction === "asc" ? "ascending" : "descending") : "none";
@@ -76,7 +85,7 @@ function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
   }
 
   const headings = Object.fromEntries(sortableColumns.map(([key, label]) => [key, sortButton(key, label, sort)]));
-  result.innerHTML = `<div class="table-wrap"><table>
+  result.innerHTML = `<div class="table-wrap"><table class="matches-table">
     <thead><tr>${headings.name}<th>Offset</th>${headings.build_id}${headings.android_version}${headings.android_api}${headings.device}</tr></thead>
     <tbody>${sortedRows.map((row) => `<tr>
       <td class="mono">${escapeHtml(row.name)}</td>
@@ -104,6 +113,64 @@ function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
     sort,
   });
 }
+
+function renderBuilds(result, rows, sort = { key: "android_version", direction: "desc" }) {
+  const sortedRows = [...rows].sort((left, right) => {
+    const leftValue = left[sort.key] ?? "";
+    const rightValue = right[sort.key] ?? "";
+    const comparison = ["android_version", "android_api"].includes(sort.key)
+      ? Number(leftValue) - Number(rightValue)
+      : String(leftValue).localeCompare(String(rightValue), undefined, { numeric: true, sensitivity: "base" });
+    return sort.direction === "asc" ? comparison : -comparison;
+  });
+  const headings = Object.fromEntries(buildColumns.map(([key, label]) => [key, sortButton(key, label, sort)]));
+  result.innerHTML = `<div class="table-wrap"><table class="builds-table">
+    <thead><tr>${headings.build_id}${headings.android_version}${headings.android_api}${headings.security_patch}${headings.firmware_build_id}${headings.device}</tr></thead>
+    <tbody>${sortedRows.map((row) => `<tr>
+      <td class="mono"><a href="/v1/libs/${encodeURIComponent(row.build_id)}" download="${escapeHtml(row.build_id)}.so">${escapeHtml(row.build_id)}</a></td>
+      <td>${escapeHtml(row.android_version)}</td>
+      <td>${escapeHtml(row.android_api)}</td>
+      <td class="catalog-list">${escapeHtml(row.security_patch)}</td>
+      <td class="catalog-list mono">${escapeHtml(row.firmware_build_id)}</td>
+      <td class="catalog-list">${escapeHtml(row.device)}</td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
+
+  result.querySelectorAll("[data-sort]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.sort;
+      const direction = sort.key === key && sort.direction === "asc" ? "desc" : "asc";
+      renderBuilds(result, rows, { key, direction });
+    });
+  });
+}
+
+let buildsLoaded = false;
+
+async function loadBuilds() {
+  if (buildsLoaded) return;
+  const result = document.querySelector("#builds-result");
+  result.innerHTML = '<div class="message">Loading…</div>';
+  try {
+    const data = await (await request("/v1/libs")).json();
+    renderBuilds(result, data.libs);
+    buildsLoaded = true;
+  } catch (error) {
+    showError(result, error);
+  }
+}
+
+document.querySelectorAll(".view-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".view-tab").forEach((button) => {
+      button.classList.toggle("active", button === tab);
+    });
+    document.querySelectorAll("[data-view-panel]").forEach((panel) => {
+      panel.hidden = panel.dataset.viewPanel !== tab.dataset.view;
+    });
+    if (tab.dataset.view === "builds") loadBuilds();
+  });
+});
 
 document.querySelector("#matches-form").addEventListener("submit", async (event) => {
   event.preventDefault();

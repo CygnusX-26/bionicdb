@@ -26,6 +26,38 @@ def get_db() -> Iterator[sqlite3.Connection]:
 Database = Annotated[sqlite3.Connection, Depends(get_db)]
 
 
+def get_all_libs(database: Database) -> list[sqlite3.Row]:
+    return database.execute(
+        """SELECT
+            libs.build_id,
+            libs.sha256,
+            releases.android_version,
+            MAX(releases.android_api) AS android_api,
+            REPLACE(
+                GROUP_CONCAT(DISTINCT releases.security_patch),
+                ',',
+                ', '
+            ) AS security_patch,
+            REPLACE(
+                GROUP_CONCAT(DISTINCT releases.firmware_build_id),
+                ',',
+                ', '
+            ) AS firmware_build_id,
+            REPLACE(
+                GROUP_CONCAT(DISTINCT releases.device),
+                ',',
+                ', '
+            ) AS device
+        FROM libs
+        LEFT JOIN releases ON releases.lib_id = libs.id
+        GROUP BY
+            libs.build_id,
+            libs.sha256,
+            releases.android_version
+        ORDER BY CAST(releases.android_version AS INTEGER) DESC, libs.build_id;"""
+    ).fetchall()
+
+
 def get_offset_from_symbol_build_id(
     database: Database, symbol: str, build_id: str
 ) -> int | None:

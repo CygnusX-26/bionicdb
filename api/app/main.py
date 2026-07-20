@@ -7,6 +7,7 @@ from starlette import status
 from app.db import (
     REPOSITORY_ROOT,
     Database,
+    get_all_libs,
     get_build_id_from_symbol_offset,
     get_lib_path_from_build_id,
     get_offset_from_symbol_build_id,
@@ -17,6 +18,11 @@ app = FastAPI(
     version="0.1.0",
     description="Query metadata for indexed Android Bionic libc builds.",
 )
+
+
+@app.get("/v1/libs")
+def libs(database: Database) -> dict[str, object]:
+    return {"status": "ok", "libs": [dict(row) for row in get_all_libs(database)]}
 
 
 @app.get("/v1/libs/{build_id}/offset")
