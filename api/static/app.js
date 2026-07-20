@@ -77,14 +77,14 @@ function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
 
   const headings = Object.fromEntries(sortableColumns.map(([key, label]) => [key, sortButton(key, label, sort)]));
   result.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr>${headings.name}<th>Offset</th>${headings.build_id}${headings.device}${headings.android_version}${headings.android_api}</tr></thead>
+    <thead><tr>${headings.name}<th>Offset</th>${headings.build_id}${headings.android_version}${headings.android_api}${headings.device}</tr></thead>
     <tbody>${sortedRows.map((row) => `<tr>
       <td class="mono">${escapeHtml(row.name)}</td>
       <td class="mono">0x${Number(row.offset).toString(16)}</td>
       <td class="mono"><a href="/v1/libs/${encodeURIComponent(row.build_id)}" download="${escapeHtml(row.build_id)}.so">${escapeHtml(row.build_id)}</a></td>
-      <td>${escapeHtml(row.device)}</td>
       <td>${escapeHtml(row.android_version)}</td>
       <td>${escapeHtml(row.android_api)}</td>
+      <td class="device-cell">${escapeHtml(row.device)}</td>
     </tr>`).join("")}</tbody>
   </table></div>`;
 
