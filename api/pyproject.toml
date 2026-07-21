@@ -5,6 +5,7 @@ description = "API for querying indexed Android Bionic libc builds"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.116,<1",
+    "mcp>=1.27,<2",
     "uvicorn[standard]>=0.35,<1",
 ]
 

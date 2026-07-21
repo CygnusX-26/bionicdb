@@ -10,13 +10,19 @@ REPOSITORY_ROOT = Path(__file__).resolve().parent.parent.parent
 DATABASE_PATH = Path(os.environ.get("BIONIC_DB_PATH", REPOSITORY_ROOT / "bionic.db"))
 
 
-def get_db() -> Iterator[sqlite3.Connection]:
-    """Provide one read-only SQLite connection per request."""
+def connect_database() -> sqlite3.Connection:
+    """Open a read-only SQLite connection for API or MCP queries."""
     connection = sqlite3.connect(
         f"file:{DATABASE_PATH}?mode=ro", uri=True, check_same_thread=False
     )
     connection.row_factory = sqlite3.Row
     _ = connection.execute("PRAGMA query_only = ON")
+    return connection
+
+
+def get_db() -> Iterator[sqlite3.Connection]:
+    """Provide one read-only SQLite connection per request."""
+    connection = connect_database()
     try:
         yield connection
     finally:

@@ -17,6 +17,44 @@ the location when needed:
 BIONIC_DB_PATH=/path/to/bionic.db uv run uvicorn app.main:app
 ```
 
+## MCP server
+
+Run the read-only MCP server over stdio:
+
+```bash
+uv run python -m app.mcp_server
+```
+
+It provides these tools:
+
+- `list_builds`
+- `find_libraries`
+- `find_symbol_offset`
+- `get_library_file`
+
+Example MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "bionicdb": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/absolute/path/to/bionicdb/api",
+        "python",
+        "-m",
+        "app.mcp_server"
+      ],
+      "env": {
+        "BIONIC_DB_PATH": "/absolute/path/to/bionicdb/bionic.db"
+      }
+    }
+  }
+}
+```
+
 Run tests with:
 
 ```bash
