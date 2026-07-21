@@ -63,6 +63,26 @@ const buildColumns = [
   ["device", "Device"],
 ];
 
+function compareAndroidVersions(left, right) {
+  const leftParts = String(left ?? "").split(".").map(Number);
+  const rightParts = String(right ?? "").split(".").map(Number);
+  const length = Math.max(leftParts.length, rightParts.length);
+  for (let index = 0; index < length; index += 1) {
+    const comparison = (leftParts[index] || 0) - (rightParts[index] || 0);
+    if (comparison) return comparison;
+  }
+  return 0;
+}
+
+function compareColumnValues(key, left, right) {
+  if (key === "android_version") return compareAndroidVersions(left, right);
+  if (key === "android_api") return Number(left ?? 0) - Number(right ?? 0);
+  return String(left ?? "").localeCompare(String(right ?? ""), undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+}
+
 function sortButton(key, label, sort) {
   const active = sort.key === key;
   const ariaSort = active ? (sort.direction === "asc" ? "ascending" : "descending") : "none";
@@ -77,9 +97,7 @@ function renderMatches(result, rows, sort = { key: null, direction: "asc" }) {
     sortedRows.sort((left, right) => {
       const leftValue = left[sort.key] ?? "";
       const rightValue = right[sort.key] ?? "";
-      const comparison = ["android_version", "android_api"].includes(sort.key)
-        ? Number(leftValue) - Number(rightValue)
-        : String(leftValue).localeCompare(String(rightValue), undefined, { numeric: true, sensitivity: "base" });
+      const comparison = compareColumnValues(sort.key, leftValue, rightValue);
       return sort.direction === "asc" ? comparison : -comparison;
     });
   }
@@ -118,9 +136,7 @@ function renderBuilds(result, rows, sort = { key: "android_version", direction: 
   const sortedRows = [...rows].sort((left, right) => {
     const leftValue = left[sort.key] ?? "";
     const rightValue = right[sort.key] ?? "";
-    const comparison = ["android_version", "android_api"].includes(sort.key)
-      ? Number(leftValue) - Number(rightValue)
-      : String(leftValue).localeCompare(String(rightValue), undefined, { numeric: true, sensitivity: "base" });
+    const comparison = compareColumnValues(sort.key, leftValue, rightValue);
     return sort.direction === "asc" ? comparison : -comparison;
   });
   const headings = Object.fromEntries(buildColumns.map(([key, label]) => [key, sortButton(key, label, sort)]));
