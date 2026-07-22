@@ -1,0 +1,5 @@
+https://dl.google.com/dl/android/aosp/menari_btwifi-ota-bd5a.250325.139.a1-8ac59531.zip
+https://dl.google.com/dl/android/aosp/menari_btwifi-ota-bd5a.250325.166.a1-44128f1a.zip
+https://dl.google.com/dl/android/aosp/menari_btwifi-ota-bp4a.251205.005.w7-fbd8cac0.zip
+https://dl.google.com/dl/android/aosp/menari_btwifi-ota-cp1a.260305.014.w2-05b89b80.zip
+https://dl.google.com/dl/android/aosp/menari_btwifi-ota-cp2a.260603.001.s1-53925a72.zip

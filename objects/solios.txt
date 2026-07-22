@@ -1,0 +1,10 @@
+https://dl.google.com/dl/android/aosp/solios-ota-aw2a.240903.001.a4-f28b557f.zip
+https://dl.google.com/dl/android/aosp/solios-ota-aw2a.241105.012-595a9716.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bp1a.250305.019.w3-d31f8724.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bp1a.250305.019.w7-3c86e12e.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bp1a.250305.019.w8-0f6cf523.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bw1a.250605.004-49584dfb.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bp3a.250905.014.w3-08bb11e5.zip
+https://dl.google.com/dl/android/aosp/solios-ota-bp4a.251205.005.w7-81989bfa.zip
+https://dl.google.com/dl/android/aosp/solios-ota-cp1a.260305.014.w2-4af7d43f.zip
+https://dl.google.com/dl/android/aosp/solios-ota-cp2a.260603.001.s1-bf108b13.zip

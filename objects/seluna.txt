@@ -1,0 +1,12 @@
+https://dl.google.com/dl/android/aosp/seluna-ota-aw2a.240903.001.a3-34586937.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-aw2a.241105.012-870abe03.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-aw2a.241105.013-05e454e9.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bp1a.250305.019.w3-597b8ec6.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bp1a.250305.019.w7-17be1db3.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bp1a.250305.019.w8-76f3222f.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bw1a.250605.004-d78188f1.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bw1a.250605.004.j2-79628447.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bp3a.250905.014.w3-9e58e971.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-bp4a.251205.005.w7-4fd7871f.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-cp1a.260305.014.w4-5c3eda13.zip
+https://dl.google.com/dl/android/aosp/seluna-ota-cp2a.260603.001-8ad472c8.zip
