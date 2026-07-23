@@ -52,6 +52,9 @@ tr:last-child td { border-bottom: 0; }
 .matches-table tbody td:first-child, .device-cell { white-space: normal; overflow-wrap: anywhere; }
 .device-cell { line-height: 1.45; }
 .builds-table .catalog-list { white-space: normal; overflow-wrap: anywhere; line-height: 1.45; }
+footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #d5d5d5; font-size: 12px; }
+footer a { color: #555; text-underline-offset: 2px; }
+footer a:hover { color: #111; }
 
 @media (max-width: 680px) {
   main { margin: 28px auto; }
