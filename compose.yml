@@ -1,0 +1,10 @@
+services:
+  bionicdb:
+    build:
+      context: .
+    ports:
+      - "${BIONICDB_PORT:-8000}:8000"
+    volumes:
+      - ./bionic.db:/app/bionic.db:ro
+      - ./objects:/app/objects:ro
+    restart: unless-stopped
